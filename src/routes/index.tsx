@@ -178,7 +178,7 @@ function Home() {
           <div className="overflow-hidden rounded-xl">
             <img
               src={excellenceImg}
-              alt="Modern distribution center demonstrating operational scale"
+              alt="Modern distribution warehouse stocked with pharmaceutical and construction materials"
               width={1600}
               height={1000}
               loading="lazy"
