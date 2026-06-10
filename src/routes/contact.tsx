@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ArrowRight, Building2, Clock, Mail, Phone } from "lucide-react";
+import excellenceImg from "@/assets/excellence.jpg";
 import { SiteLayout } from "@/components/site/SiteLayout";
-import { Phone, Mail, Building2, Clock } from "lucide-react";
-import { useState } from "react";
+import { SectionGrid } from "@/components/site/SectionGrid";
+import { CONTACT_EMAIL, useTranslation } from "@/i18n";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -23,114 +25,138 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
+const channels = [
+  {
+    key: "mobile",
+    icon: Phone,
+    labelKey: "phone" as const,
+    href: "tel:0913036931",
+    value: "0913036931",
+    external: false,
+  },
+  {
+    key: "office",
+    icon: Building2,
+    labelKey: "office" as const,
+    href: "tel:+251116359235",
+    value: "+251 11 635 9235",
+    external: false,
+  },
+  {
+    key: "email",
+    icon: Mail,
+    labelKey: "email" as const,
+    href: `mailto:${CONTACT_EMAIL}`,
+    value: CONTACT_EMAIL,
+    external: false,
+  },
+  {
+    key: "hours",
+    icon: Clock,
+    labelKey: "hours" as const,
+    valueKey: "hoursValue" as const,
+    external: false,
+  },
+] as const;
+
 function ContactPage() {
-  const [sent, setSent] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <SiteLayout>
-      <section className="container-page pt-16 pb-12 lg:pt-24 lg:pb-16">
-        <div className="max-w-3xl">
-          <span className="eyebrow">Contact</span>
-          <h1 className="mt-6 font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05]">
-            Speak with our team.
-          </h1>
-          <p className="mt-7 text-lg text-muted-foreground leading-relaxed">
-            Whether you need a product catalog, a bulk quote, or a partnership conversation —
-            we respond within one business day.
-          </p>
+      <section className="relative overflow-hidden border-b border-border">
+        <SectionGrid align="left" />
+        <div className="container-page relative pt-16 pb-12 lg:pt-24 lg:pb-20">
+          <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div className="max-w-2xl reveal">
+              <span className="eyebrow">{t.contact.hero.eyebrow}</span>
+              <h1 className="mt-6 font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05]">
+                {t.contact.hero.title}
+              </h1>
+              <p className="mt-7 text-lg text-muted-foreground leading-relaxed">
+                {t.contact.hero.body}
+              </p>
+
+              <div className="mt-10 flex flex-wrap gap-3">
+                <a href="tel:0913036931" className="btn-primary">
+                  {t.contact.aside.phone} <ArrowRight className="h-4 w-4" />
+                </a>
+                <a href={`mailto:${CONTACT_EMAIL}`} className="btn-outline">
+                  {t.contact.aside.email}
+                </a>
+              </div>
+            </div>
+
+            <div className="relative reveal hidden lg:block">
+              <div className="absolute -inset-5 bg-primary/5 rounded-2xl -z-10" />
+              <div className="overflow-hidden rounded-xl shadow-[var(--shadow-elevated)]">
+                <img
+                  src={excellenceImg}
+                  alt=""
+                  width={1280}
+                  height={800}
+                  className="h-[340px] w-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-5 -left-5 max-w-[240px] rounded-lg border border-border bg-surface p-5 shadow-[var(--shadow-card)]">
+                <div className="flex items-center gap-2 text-accent">
+                  <Clock className="h-4 w-4" />
+                  <span className="text-[11px] font-semibold uppercase tracking-wider">
+                    {t.contact.aside.hours}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm font-medium text-foreground">
+                  {t.contact.aside.hoursValue}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="container-page pb-24">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
-          <aside className="bg-primary text-primary-foreground rounded-2xl p-10 lg:p-12 h-fit">
-            <h2 className="font-display text-2xl font-bold !text-primary-foreground">
-              Direct lines
-            </h2>
-            <p className="mt-3 text-primary-foreground/75 text-sm">
-              Reach the right team for the right division.
-            </p>
+      <section className="container-page py-20 lg:py-28">
+        <div className="max-w-2xl">
+          <span className="eyebrow">{t.contact.aside.title}</span>
+          <h2 className="mt-5 font-display text-3xl sm:text-4xl font-bold">
+            {t.contact.aside.body}
+          </h2>
+        </div>
 
-            <ul className="mt-10 space-y-7">
-              <ContactItem icon={<Phone className="h-5 w-5" />} label="Phone">
-                <a href="tel:0913036931" className="hover:text-accent">0913036931</a>
-              </ContactItem>
-              <ContactItem icon={<Building2 className="h-5 w-5" />} label="Office">
-                <a href="tel:+251116359235" className="hover:text-accent">+251 11 635 9235</a>
-              </ContactItem>
-              <ContactItem icon={<Mail className="h-5 w-5" />} label="Email">
-                <a
-                  href="mailto:bekalugetahun683@gmail.com"
-                  className="hover:text-accent break-all"
-                >
-                  bekalugetahun683@gmail.com
-                </a>
-              </ContactItem>
-              <ContactItem icon={<Clock className="h-5 w-5" />} label="Hours">
-                Monday – Saturday · 08:30 – 18:00
-              </ContactItem>
-            </ul>
-          </aside>
+        <div className="mt-14 grid gap-5 sm:grid-cols-2">
+          {channels.map((channel) => (
+            <ContactChannel
+              key={channel.key}
+              icon={channel.icon}
+              label={t.contact.aside[channel.labelKey]}
+              value={
+                "valueKey" in channel
+                  ? t.contact.aside[channel.valueKey]
+                  : channel.value
+              }
+              href={"href" in channel ? channel.href : undefined}
+            />
+          ))}
+        </div>
 
-          <div className="bg-surface border border-border rounded-2xl p-10 lg:p-12 shadow-[var(--shadow-card)]">
-            {sent ? (
-              <div className="h-full flex flex-col items-start justify-center">
-                <span className="eyebrow">Thank you</span>
-                <h2 className="mt-5 font-display text-3xl font-bold">
-                  We received your message.
-                </h2>
-                <p className="mt-4 text-muted-foreground">
-                  A member of our team will get back to you within one business day.
-                </p>
-              </div>
-            ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSent(true);
-                }}
-                className="space-y-6"
-              >
-                <h2 className="font-display text-2xl font-bold">Send a message</h2>
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <Field label="Full name" name="name" required />
-                  <Field label="Company" name="company" />
-                </div>
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <Field label="Email" name="email" type="email" required />
-                  <Field label="Phone" name="phone" type="tel" />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    Inquiry type
-                  </label>
-                  <select
-                    name="type"
-                    className="w-full bg-background border border-input rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                  >
-                    <option>Pharmaceutical sourcing</option>
-                    <option>Construction materials</option>
-                    <option>Bulk quote</option>
-                    <option>Partnership</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    name="message"
-                    required
-                    rows={5}
-                    className="w-full bg-background border border-input rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none"
-                  />
-                </div>
-                <button type="submit" className="btn-primary w-full sm:w-auto">
-                  Send message
-                </button>
-              </form>
-            )}
+        <div className="mt-12 overflow-hidden rounded-2xl bg-primary text-primary-foreground shadow-[var(--shadow-elevated)]">
+          <div className="grid gap-8 p-10 lg:grid-cols-[1fr_auto] lg:items-center lg:p-12">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">
+                {t.contact.aside.email}
+              </p>
+              <p className="mt-3 font-display text-2xl font-bold break-all sm:text-3xl">
+                {CONTACT_EMAIL}
+              </p>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-primary-foreground/75">
+                {t.contact.hero.body}
+              </p>
+            </div>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="btn-accent shrink-0 self-start lg:self-center"
+            >
+              {t.contact.aside.email} <Mail className="h-4 w-4" />
+            </a>
           </div>
         </div>
       </section>
@@ -138,38 +164,48 @@ function ContactPage() {
   );
 }
 
-function ContactItem({
-  icon, label, children,
-}: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
-  return (
-    <li className="flex gap-4 items-start min-w-0">
-      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-accent/15 text-accent">
-        {icon}
-      </span>
-      <div className="min-w-0">
-        <div className="text-[11px] uppercase tracking-[0.18em] text-primary-foreground/60 font-semibold">
-          {label}
-        </div>
-        <div className="mt-1 text-primary-foreground">{children}</div>
+function ContactChannel({
+  icon: Icon,
+  label,
+  value,
+  href,
+}: {
+  icon: typeof Phone;
+  label: string;
+  value: string;
+  href?: string;
+}) {
+  const content = (
+    <>
+      <div className="grid h-12 w-12 place-items-center rounded-md bg-primary/5 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+        <Icon className="h-5 w-5" />
       </div>
-    </li>
+      <div className="mt-6 min-w-0">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </p>
+        <p className="mt-2 font-display text-lg font-semibold text-primary break-words">
+          {value}
+        </p>
+      </div>
+      {href && (
+        <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors group-hover:text-accent">
+          {label} <ArrowRight className="h-4 w-4" />
+        </span>
+      )}
+    </>
   );
-}
 
-function Field({
-  label, name, type = "text", required,
-}: { label: string; name: string; type?: string; required?: boolean }) {
-  return (
-    <div>
-      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-        {label}
-      </label>
-      <input
-        type={type}
-        name={name}
-        required={required}
-        className="w-full bg-background border border-input rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-      />
-    </div>
-  );
+  const className =
+    "group flex h-full flex-col rounded-xl border border-border bg-surface p-8 transition-all hover:border-primary/20 hover:shadow-[var(--shadow-elevated)]";
+
+  if (href) {
+    return (
+      <a href={href} className={className}>
+        {content}
+      </a>
+    );
+  }
+
+  return <article className={className}>{content}</article>;
 }

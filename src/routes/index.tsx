@@ -1,10 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Truck, BadgeCheck, Headset, Pill, HardHat } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  HardHat,
+  Headset,
+  Pill,
+  ShieldCheck,
+  Truck,
+} from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import pharmaImg from "@/assets/pharma.jpg";
 import constructionImg from "@/assets/construction.jpg";
 import excellenceImg from "@/assets/excellence.jpg";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { SectionGrid } from "@/components/site/SectionGrid";
+import { useTranslation } from "@/i18n";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,42 +37,56 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+const whyIcons = [ShieldCheck, Truck, BadgeCheck, Headset] as const;
+
+const divisionCards = [
+  { image: pharmaImg, icon: Pill },
+  { image: constructionImg, icon: HardHat },
+] as const;
+
 function Home() {
+  const { t } = useTranslation();
+  const divisions = [
+    t.home.divisions.pharma,
+    t.home.divisions.construction,
+  ] as const;
+
   return (
     <SiteLayout>
-      {/* HERO — fits within a single viewport */}
-      <section className="relative overflow-hidden">
-        <div className="container-page grid gap-8 lg:gap-12 lg:grid-cols-[1.05fr_1fr] items-center min-h-[calc(100svh-5rem)] py-8 lg:py-10">
-          <div className="reveal">
-            <span className="eyebrow">Established Trading Company</span>
-            <h1 className="mt-4 font-display font-extrabold text-3xl sm:text-4xl lg:text-[3.25rem] leading-[1.05] text-primary">
-              Supplying Healthcare.<br />
-              Building Infrastructure.<br />
-              <span className="text-accent">Delivering Trust.</span>
+      <section className="relative overflow-hidden border-b border-border">
+        <SectionGrid align="right" />
+        <div className="container-page relative grid min-h-[calc(100svh-5rem)] items-center gap-10 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-12">
+          <div className="reveal max-w-xl lg:max-w-none">
+            <span className="eyebrow">{t.home.hero.eyebrow}</span>
+            <h1 className="mt-5 font-display text-3xl font-extrabold leading-[1.05] text-primary sm:text-4xl lg:text-[3.25rem]">
+              {t.home.hero.titleLine1}
+              <br />
+              {t.home.hero.titleLine2}
+              <br />
+              <span className="text-accent">{t.home.hero.titleLine3}</span>
             </h1>
-            <p className="mt-5 text-base lg:text-lg leading-relaxed text-muted-foreground max-w-xl">
-              Basilea Trading delivers certified pharmaceutical products and
-              precision-manufactured construction materials through reliable sourcing,
-              quality control, and efficient logistics.
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground lg:text-lg">
+              {t.home.hero.body}
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/contact" className="btn-primary">
-                Request Product Catalog <ArrowRight className="h-4 w-4" />
+                {t.home.hero.ctaCatalog} <ArrowRight className="h-4 w-4" />
               </Link>
               <Link to="/contact" className="btn-outline">
-                Get Bulk Quote
+                {t.home.hero.ctaQuote}
               </Link>
             </div>
 
-            <dl className="mt-8 grid grid-cols-3 gap-6 max-w-lg border-t border-border pt-5">
-              {[
-                { k: "2", v: "Core divisions" },
-                { k: "100%", v: "Certified suppliers" },
-                { k: "24/7", v: "Logistics support" },
-              ].map((s) => (
-                <div key={s.v}>
-                  <dt className="font-display text-xl lg:text-2xl font-bold text-primary">{s.k}</dt>
-                  <dd className="mt-1 text-[11px] uppercase tracking-wider text-muted-foreground">
+            <dl className="mt-8 flex flex-wrap gap-3">
+              {t.home.hero.stats.map((s) => (
+                <div
+                  key={s.v}
+                  className="rounded-md border border-border/80 bg-surface/70 px-4 py-3 backdrop-blur-sm"
+                >
+                  <dt className="font-display text-xl font-bold tabular-nums text-primary lg:text-2xl">
+                    {s.k}
+                  </dt>
+                  <dd className="mt-0.5 text-[11px] uppercase tracking-wider text-muted-foreground">
                     {s.v}
                   </dd>
                 </div>
@@ -71,203 +95,195 @@ function Home() {
           </div>
 
           <div className="relative reveal hidden lg:block">
-            <div className="absolute -inset-6 lg:-inset-8 bg-primary/5 rounded-2xl -z-10" />
+            <div className="absolute -inset-6 rounded-2xl bg-primary/5 -z-10 lg:-inset-8" />
             <div className="relative overflow-hidden rounded-xl shadow-[var(--shadow-elevated)]">
               <img
                 src={heroImg}
-                alt="Pharmaceutical vials and construction materials"
+                alt={t.home.hero.imageAlt}
                 width={1600}
                 height={1200}
-                className="w-full h-[60vh] max-h-[600px] object-cover"
+                className="h-[58vh] max-h-[580px] w-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-surface border border-border shadow-[var(--shadow-card)] rounded-lg p-4 max-w-[260px]">
+            <div className="absolute -bottom-6 -left-6 max-w-[270px] rounded-lg border border-border bg-surface p-5 shadow-[var(--shadow-card)]">
               <div className="flex items-center gap-2 text-accent">
                 <BadgeCheck className="h-5 w-5" />
                 <span className="text-xs font-semibold uppercase tracking-wider">
-                  Quality Assured
+                  {t.home.hero.badgeTitle}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-foreground">
-                Every shipment is verified against international standards before dispatch.
+              <p className="mt-2 text-sm leading-relaxed text-foreground">
+                {t.home.hero.badgeBody}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* DIVISIONS */}
-      <section className="bg-surface border-y border-border">
-        <div className="container-page py-20 lg:py-28">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14">
+      <section className="relative overflow-hidden border-b border-border bg-surface">
+        <SectionGrid align="left" className="opacity-60" />
+        <div className="container-page relative py-20 lg:py-28">
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div className="max-w-2xl">
-              <span className="eyebrow">Our Business Divisions</span>
-              <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-5xl font-bold">
-                Two specialized divisions.<br />One operational standard.
+              <span className="eyebrow">{t.home.divisions.eyebrow}</span>
+              <h2 className="mt-5 font-display text-3xl font-bold sm:text-4xl lg:text-5xl">
+                {t.home.divisions.titleLine1}
+                <br />
+                {t.home.divisions.titleLine2}
               </h2>
             </div>
-            <p className="text-muted-foreground max-w-md">
-              Each division is governed by the same disciplined approach to sourcing,
-              compliance, and on-time delivery.
+            <p className="text-muted-foreground leading-relaxed lg:pb-1">
+              {t.home.divisions.intro}
             </p>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-2">
-            <DivisionCard
-              icon={<Pill className="h-6 w-6" />}
-              title="Pharmaceutical Distribution"
-              description="Certified medicines and medical supplies for pharmacies, clinics, and healthcare facilities — sourced from approved manufacturers, stored under regulated conditions, and dispatched through validated cold-chain logistics."
-              image={pharmaImg}
-            />
-            <DivisionCard
-              icon={<HardHat className="h-6 w-6" />}
-              title="Construction Materials"
-              description="Precision-manufactured building materials for contractors, developers, and infrastructure projects — engineered to specification, tested for performance, and delivered at the scale modern projects demand."
-              image={constructionImg}
-            />
+          <div className="mt-14 grid gap-6 lg:grid-cols-2">
+            {divisions.map((division, i) => {
+              const { image, icon: Icon } = divisionCards[i];
+              return (
+                <Link
+                  key={division.title}
+                  to="/projects"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all hover:border-primary/20 hover:shadow-[var(--shadow-elevated)]"
+                >
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={image}
+                      alt={division.title}
+                      width={1280}
+                      height={640}
+                      loading="lazy"
+                      className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/75 via-primary/15 to-transparent" />
+                    <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
+                      <h3 className="font-display text-2xl font-bold text-primary-foreground">
+                        {division.title}
+                      </h3>
+                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent text-accent-foreground">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex flex-1 flex-col p-7 lg:p-8">
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {division.description}
+                    </p>
+                    <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors group-hover:text-accent">
+                      {t.home.divisions.learnMore}{" "}
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* WHY BASILEA */}
-      <section className="container-page py-20 lg:py-28">
-        <div className="max-w-2xl">
-          <span className="eyebrow">Why Basilea</span>
-          <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-5xl font-bold">
-            The standards that make us a long-term partner.
-          </h2>
-        </div>
-
-        <div className="mt-14 grid gap-px bg-border rounded-xl overflow-hidden sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              icon: <ShieldCheck className="h-6 w-6" />,
-              title: "Quality Assurance",
-              body: "Documented inspection at every stage from supplier to delivery.",
-            },
-            {
-              icon: <Truck className="h-6 w-6" />,
-              title: "Reliable Supply Chain",
-              body: "Redundant sourcing and disciplined logistics protect your timelines.",
-            },
-            {
-              icon: <BadgeCheck className="h-6 w-6" />,
-              title: "Industry Compliance",
-              body: "Regulatory standards observed across pharmaceutical and construction lines.",
-            },
-            {
-              icon: <Headset className="h-6 w-6" />,
-              title: "Responsive Support",
-              body: "Direct account management with measurable response times.",
-            },
-          ].map((c) => (
-            <div key={c.title} className="bg-surface p-8 lg:p-10 hover:bg-secondary/40 transition-colors">
-              <div className="grid h-12 w-12 place-items-center rounded-md bg-primary/5 text-primary">
-                {c.icon}
-              </div>
-              <h3 className="mt-6 font-display text-xl font-semibold">{c.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* COMMITMENT */}
-      <section className="bg-primary text-primary-foreground">
-        <div className="container-page py-20 lg:py-28 grid gap-12 lg:grid-cols-2 items-center">
-          <div className="overflow-hidden rounded-xl">
-            <img
-              src={excellenceImg}
-              alt="Modern distribution warehouse stocked with pharmaceutical and construction materials"
-              width={1600}
-              height={1000}
-              loading="lazy"
-              className="w-full h-[360px] lg:h-[520px] object-cover"
-            />
-          </div>
-          <div>
-            <span className="eyebrow !text-accent">Commitment to Excellence</span>
-            <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-5xl font-bold !text-primary-foreground">
-              Operational standards engineered for trust.
+      <section className="relative overflow-hidden">
+        <SectionGrid align="right" className="opacity-50" />
+        <div className="container-page relative py-20 lg:py-28">
+          <div className="max-w-2xl">
+            <span className="eyebrow">{t.home.why.eyebrow}</span>
+            <h2 className="mt-5 font-display text-3xl font-bold sm:text-4xl lg:text-5xl">
+              {t.home.why.title}
             </h2>
-            <p className="mt-6 text-primary-foreground/80 leading-relaxed">
-              From manufacturer verification to controlled storage and last-mile delivery,
-              every Basilea Trading process is documented, audited, and continuously
-              improved. We treat each shipment as an obligation — to the patient who
-              depends on it, and to the structure built on it.
-            </p>
-            <ul className="mt-8 space-y-4">
-              {[
-                "Approved international manufacturers only",
-                "Climate-controlled and segregated storage",
-                "Full traceability across batches and lots",
-                "Independent quality verification on dispatch",
-              ].map((l) => (
-                <li key={l} className="flex gap-3 items-start">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
-                  <span className="text-primary-foreground/85">{l}</span>
-                </li>
-              ))}
-            </ul>
+          </div>
+
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {t.home.why.items.map((item, i) => {
+              const Icon = whyIcons[i];
+              return (
+                <article
+                  key={item.title}
+                  className="rounded-xl border border-border bg-surface p-8 transition-all hover:border-primary/15 hover:shadow-[var(--shadow-card)] lg:p-9"
+                >
+                  <div className="grid h-12 w-12 place-items-center rounded-md bg-primary/5 text-primary">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-6 font-display text-xl font-semibold">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {item.body}
+                  </p>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
+      <section className="border-y border-border bg-primary text-primary-foreground">
+        <div className="container-page py-20 lg:py-28">
+          <div className="overflow-hidden rounded-2xl border border-primary-foreground/10 shadow-[var(--shadow-elevated)]">
+            <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
+              <div className="relative min-h-[280px] lg:min-h-full">
+                <img
+                  src={excellenceImg}
+                  alt={t.home.commitment.imageAlt}
+                  width={1600}
+                  height={1000}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-primary/15 lg:bg-gradient-to-l lg:from-transparent lg:via-primary/25 lg:to-primary/70" />
+              </div>
+
+              <div className="p-10 lg:p-14">
+                <span className="eyebrow !text-accent">{t.home.commitment.eyebrow}</span>
+                <h2 className="mt-5 font-display text-3xl font-bold !text-primary-foreground sm:text-4xl lg:text-5xl">
+                  {t.home.commitment.title}
+                </h2>
+                <p className="mt-6 leading-relaxed text-primary-foreground/80">
+                  {t.home.commitment.body}
+                </p>
+                <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+                  {t.home.commitment.bullets.map((bullet) => (
+                    <li
+                      key={bullet}
+                      className="flex gap-3 rounded-lg border border-primary-foreground/10 bg-primary-foreground/5 p-4"
+                    >
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                      <span className="text-sm leading-snug text-primary-foreground/90">
+                        {bullet}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="container-page py-20 lg:py-28">
-        <div className="bg-surface border border-border rounded-2xl p-10 lg:p-16 text-center max-w-4xl mx-auto shadow-[var(--shadow-card)]">
-          <span className="eyebrow justify-center">Partner With Basilea</span>
-          <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-5xl font-bold">
-            Build your next project on a supply chain you can trust.
-          </h2>
-          <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            Speak with our team about pharmaceutical sourcing, construction material
-            specifications, or a long-term supply agreement.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3 justify-center">
-            <Link to="/contact" className="btn-primary">
-              Contact Sales <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link to="/projects" className="btn-outline">
-              Explore Divisions
-            </Link>
+        <div className="overflow-hidden rounded-2xl bg-primary text-primary-foreground shadow-[var(--shadow-elevated)]">
+          <div className="grid gap-8 p-10 text-center lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:p-14 lg:text-left">
+            <div className="hidden lg:block" />
+            <div className="max-w-2xl lg:col-start-2">
+              <span className="eyebrow justify-center lg:justify-start !text-accent">
+                {t.home.cta.eyebrow}
+              </span>
+              <h2 className="mt-5 font-display text-3xl font-bold !text-primary-foreground sm:text-4xl lg:text-5xl">
+                {t.home.cta.title}
+              </h2>
+              <p className="mt-5 text-primary-foreground/75">{t.home.cta.body}</p>
+              <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+                <Link to="/contact" className="btn-accent">
+                  {t.home.cta.contactSales} <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  to="/projects"
+                  className="btn-outline !border-primary-foreground/25 !text-primary-foreground hover:!border-primary-foreground hover:!bg-primary-foreground/10"
+                >
+                  {t.home.cta.exploreDivisions}
+                </Link>
+              </div>
+            </div>
+            <div className="hidden lg:block" />
           </div>
         </div>
       </section>
     </SiteLayout>
-  );
-}
-
-function DivisionCard({
-  icon, title, description, image,
-}: { icon: React.ReactNode; title: string; description: string; image: string }) {
-  return (
-    <article className="group bg-background border border-border rounded-xl overflow-hidden hover:shadow-[var(--shadow-elevated)] transition-shadow">
-      <div className="overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          width={1280}
-          height={960}
-          loading="lazy"
-          className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-        />
-      </div>
-      <div className="p-8 lg:p-10">
-        <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-md bg-primary text-primary-foreground">
-            {icon}
-          </div>
-          <h3 className="font-display text-2xl font-bold">{title}</h3>
-        </div>
-        <p className="mt-5 text-muted-foreground leading-relaxed">{description}</p>
-        <Link
-          to="/projects"
-          className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent transition-colors"
-        >
-          Learn more <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-    </article>
   );
 }

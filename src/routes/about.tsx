@@ -1,11 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import aboutImg from "@/assets/about.jpg";
 import { SiteLayout } from "@/components/site/SiteLayout";
+import { SectionGrid } from "@/components/site/SectionGrid";
+import { useTranslation } from "@/i18n";
 import {
   ArrowRight,
-  Target,
-  Pill,
-  HardHat,
   Handshake,
   ShieldCheck,
   Globe2,
@@ -33,100 +32,68 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
-const principles = [
-  {
-    icon: <ShieldCheck className="h-5 w-5" />,
-    title: "Compliance first",
-    body: "Regulatory standards drive every sourcing decision — not the other way around.",
-  },
-  {
-    icon: <Layers className="h-5 w-5" />,
-    title: "Documented quality",
-    body: "Every batch, lot, and shipment is inspected, recorded, and traceable.",
-  },
-  {
-    icon: <Globe2 className="h-5 w-5" />,
-    title: "Trusted suppliers",
-    body: "We partner only with approved international manufacturers with verified credentials.",
-  },
-  {
-    icon: <Handshake className="h-5 w-5" />,
-    title: "Long-term partnerships",
-    body: "We measure success in renewed agreements, not single transactions.",
-  },
+const principleIcons = [
+  <ShieldCheck className="h-5 w-5" />,
+  <Layers className="h-5 w-5" />,
+  <Globe2 className="h-5 w-5" />,
+  <Handshake className="h-5 w-5" />,
 ];
 
 function AboutPage() {
+  const { t } = useTranslation();
+
   return (
     <SiteLayout>
-      {/* HERO */}
-      <section className="relative border-b border-border bg-surface">
-        <div className="container-page grid gap-12 lg:grid-cols-[1.1fr_1fr] items-center py-16 lg:py-24">
-          <div>
-            <span className="eyebrow">About Basilea Trading</span>
-            <h1 className="mt-5 font-display text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.05]">
-              A trading company built on{" "}
-              <span className="text-accent">standards</span>, not slogans.
+      <section className="relative overflow-hidden border-b border-border">
+        <SectionGrid align="right" />
+        <div className="container-page relative pt-16 pb-12 lg:pt-24 lg:pb-16">
+          <div className="max-w-3xl">
+            <span className="eyebrow">{t.about.hero.eyebrow}</span>
+            <h1 className="mt-6 font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05]">
+              {t.about.hero.titleBefore}{" "}
+              <span className="text-accent">{t.about.hero.titleAccent}</span>
+              {t.about.hero.titleAfter}
             </h1>
-            <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-xl">
-              Basilea Trading was founded on a simple principle: serious sectors
-              deserve serious suppliers. We bring the same operational discipline to a
-              pallet of medicine as we do to a truckload of building materials.
+            <p className="mt-7 text-lg text-muted-foreground leading-relaxed">
+              {t.about.hero.body}
             </p>
 
-            <dl className="mt-10 grid grid-cols-3 gap-6 max-w-md border-t border-border pt-6">
-              {[
-                { k: "2", v: "Divisions" },
-                { k: "100%", v: "Verified sourcing" },
-                { k: "24/7", v: "Logistics support" },
-              ].map((s) => (
-                <div key={s.v}>
-                  <dt className="font-display text-2xl font-bold text-primary">
+            <dl className="mt-10 flex flex-wrap gap-3">
+              {t.about.hero.stats.map((s) => (
+                <div
+                  key={s.v}
+                  className="rounded-md border border-border/80 bg-surface/70 px-4 py-3 backdrop-blur-sm"
+                >
+                  <dt className="font-display text-xl font-bold text-primary tabular-nums">
                     {s.k}
                   </dt>
-                  <dd className="mt-1 text-[11px] uppercase tracking-wider text-muted-foreground">
+                  <dd className="mt-0.5 text-[11px] uppercase tracking-wider text-muted-foreground">
                     {s.v}
                   </dd>
                 </div>
               ))}
             </dl>
           </div>
-
-          <div className="relative">
-            <div className="absolute -inset-6 bg-primary/5 rounded-2xl -z-10" />
-            <div className="overflow-hidden rounded-xl shadow-[var(--shadow-elevated)]">
-              <img
-                src={aboutImg}
-                alt="Curated arrangement of pharmaceutical packaging and construction material samples"
-                width={1600}
-                height={1000}
-                className="w-full h-[360px] lg:h-[520px] object-cover"
-              />
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* MISSION + PRINCIPLES */}
       <section className="container-page py-20 lg:py-28">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
           <div>
-            <span className="eyebrow">Mission</span>
+            <span className="eyebrow">{t.about.mission.eyebrow}</span>
             <h2 className="mt-5 font-display text-3xl lg:text-4xl font-bold leading-tight">
-              Deliver the products healthcare and infrastructure depend on.
+              {t.about.mission.title}
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
-              We exist to make the supply of critical goods predictable, traceable, and
-              accountable. Our partners count on us not because we promise the most,
-              but because we document everything we deliver.
+              {t.about.mission.body}
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-px bg-border rounded-xl overflow-hidden border border-border">
-            {principles.map((p) => (
+            {t.about.principles.map((p, i) => (
               <div key={p.title} className="bg-surface p-7 lg:p-8">
                 <div className="grid h-11 w-11 place-items-center rounded-md bg-primary/5 text-primary">
-                  {p.icon}
+                  {principleIcons[i]}
                 </div>
                 <h3 className="mt-5 font-display text-lg font-semibold">{p.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -138,53 +105,31 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* DIVISIONS DEEP DIVE */}
-      <Block
-        eyebrow="Pharmaceutical Excellence"
-        title="Certified medicines, governed end-to-end."
-        icon={<Pill className="h-6 w-6" />}
-        body="We work only with approved manufacturers. Products are received, inspected, and stored under regulated conditions, then dispatched through validated logistics with full batch traceability — so pharmacies, clinics, and healthcare facilities receive exactly what they ordered, intact."
-        points={[
-          "Approved manufacturers only",
-          "Validated cold-chain logistics",
-          "Full batch & lot traceability",
-        ]}
-      />
+      {t.about.blocks.map((block, i) => (
+        <Block
+          key={block.eyebrow}
+          index={`0${i + 1}`}
+          eyebrow={block.eyebrow}
+          title={block.title}
+          body={block.body}
+          points={block.points.length > 0 ? block.points : undefined}
+          muted={i === 1}
+          reverse={i === 1}
+        />
+      ))}
 
-      <Block
-        reverse
-        eyebrow="Construction Integrity"
-        title="Materials engineered to specification, delivered at scale."
-        icon={<HardHat className="h-6 w-6" />}
-        body="From cement and steel to finishing materials, our construction division sources for performance and consistency. Contractors, developers, and infrastructure projects depend on materials that meet specification and arrive on schedule — and that is the standard we hold."
-        points={[
-          "Specification-matched sourcing",
-          "Bulk supply for major projects",
-          "Scheduled, accountable delivery",
-        ]}
-      />
-
-      <Block
-        eyebrow="Our Promise"
-        title="Accountability is the product."
-        icon={<Target className="h-6 w-6" />}
-        body="Every Basilea Trading shipment carries a chain of verification behind it. If something is not right, we trace it, fix it, and learn from it. That is what it means to build long-term partnerships in regulated, high-stakes sectors."
-      />
-
-      {/* CTA */}
       <section className="container-page pb-20 lg:pb-28">
         <div className="bg-primary text-primary-foreground rounded-2xl p-10 lg:p-16 flex flex-col lg:flex-row gap-8 lg:items-center justify-between">
           <div className="max-w-xl">
             <h3 className="font-display text-2xl lg:text-3xl font-bold !text-primary-foreground">
-              Considering Basilea for a supply agreement?
+              {t.about.cta.title}
             </h3>
             <p className="mt-3 text-primary-foreground/75">
-              We will walk you through our sourcing standards, certifications, and
-              fulfilment process before any commitment.
+              {t.about.cta.body}
             </p>
           </div>
           <Link to="/contact" className="btn-accent shrink-0">
-            Talk to our team <ArrowRight className="h-4 w-4" />
+            {t.about.cta.button} <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
@@ -193,49 +138,76 @@ function AboutPage() {
 }
 
 function Block({
+  index,
   eyebrow,
   title,
   body,
-  icon,
+  muted,
   reverse,
   points,
 }: {
+  index: string;
   eyebrow: string;
   title: string;
   body: string;
-  icon: React.ReactNode;
+  muted?: boolean;
   reverse?: boolean;
   points?: string[];
 }) {
   return (
-    <section className="border-t border-border">
-      <div className="container-page py-16 lg:py-24 grid gap-10 lg:grid-cols-[1fr_1.4fr] items-start">
-        <div className={reverse ? "lg:order-2" : ""}>
-          <span className="eyebrow">{eyebrow}</span>
-          <div className="mt-6 grid h-14 w-14 place-items-center rounded-md bg-primary text-primary-foreground">
-            {icon}
+    <section
+      className={`relative overflow-hidden border-t border-border ${
+        muted ? "bg-surface" : ""
+      }`}
+    >
+      <SectionGrid align={reverse ? "left" : "right"} />
+
+      <div className="container-page relative py-16 lg:py-24">
+        <div
+          className={`grid gap-10 lg:gap-20 lg:grid-cols-[1fr_1.4fr] lg:items-start ${
+            reverse ? "lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1" : ""
+          }`}
+        >
+          <div>
+            <div className="flex items-center gap-4">
+              <span
+                className="font-display text-sm font-semibold tabular-nums tracking-widest text-accent/70"
+                aria-hidden
+              >
+                {index}
+              </span>
+              <span className="h-px flex-1 max-w-12 bg-border" aria-hidden />
+            </div>
+            <span className="eyebrow mt-4">{eyebrow}</span>
+            <h2 className="mt-5 font-display text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">
+              {title}
+            </h2>
           </div>
-        </div>
-        <div>
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight max-w-2xl">
-            {title}
-          </h2>
-          <p className="mt-6 text-muted-foreground leading-relaxed max-w-2xl">
-            {body}
-          </p>
-          {points && (
-            <ul className="mt-7 grid sm:grid-cols-3 gap-4 max-w-2xl">
-              {points.map((p) => (
-                <li
-                  key={p}
-                  className="flex gap-2 items-start text-sm text-foreground/80"
-                >
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
-                  <span>{p}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+
+          <div>
+            <p className="text-muted-foreground leading-relaxed lg:text-[1.0625rem]">
+              {body}
+            </p>
+            {points && (
+              <ul className="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
+                {points.map((p, i) => (
+                  <li
+                    key={p}
+                    className={`px-5 py-4 backdrop-blur-sm ${
+                      muted ? "bg-surface/90" : "bg-background/90"
+                    }`}
+                  >
+                    <span className="font-display text-[11px] font-semibold tabular-nums tracking-widest text-accent/80">
+                      {index}.{i + 1}
+                    </span>
+                    <p className="mt-2 text-sm leading-snug text-foreground/85">
+                      {p}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
     </section>
