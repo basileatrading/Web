@@ -30,22 +30,22 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <SiteLayout>
-      {/* HERO */}
+      {/* HERO — fits within a single viewport */}
       <section className="relative overflow-hidden">
-        <div className="container-page pt-16 pb-20 lg:pt-24 lg:pb-32 grid gap-12 lg:grid-cols-[1.05fr_1fr] items-center">
+        <div className="container-page grid gap-8 lg:gap-12 lg:grid-cols-[1.05fr_1fr] items-center min-h-[calc(100svh-5rem)] py-8 lg:py-10">
           <div className="reveal">
             <span className="eyebrow">Established Trading Company</span>
-            <h1 className="mt-6 font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-primary">
+            <h1 className="mt-4 font-display font-extrabold text-3xl sm:text-4xl lg:text-[3.25rem] leading-[1.05] text-primary">
               Supplying Healthcare.<br />
               Building Infrastructure.<br />
               <span className="text-accent">Delivering Trust.</span>
             </h1>
-            <p className="mt-7 text-lg leading-relaxed text-muted-foreground max-w-xl">
+            <p className="mt-5 text-base lg:text-lg leading-relaxed text-muted-foreground max-w-xl">
               Basilea Trading delivers certified pharmaceutical products and
               precision-manufactured construction materials through reliable sourcing,
               quality control, and efficient logistics.
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/contact" className="btn-primary">
                 Request Product Catalog <ArrowRight className="h-4 w-4" />
               </Link>
@@ -54,15 +54,15 @@ function Home() {
               </Link>
             </div>
 
-            <dl className="mt-14 grid grid-cols-3 gap-6 max-w-lg border-t border-border pt-8">
+            <dl className="mt-8 grid grid-cols-3 gap-6 max-w-lg border-t border-border pt-5">
               {[
                 { k: "2", v: "Core divisions" },
                 { k: "100%", v: "Certified suppliers" },
                 { k: "24/7", v: "Logistics support" },
               ].map((s) => (
                 <div key={s.v}>
-                  <dt className="font-display text-2xl font-bold text-primary">{s.k}</dt>
-                  <dd className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">
+                  <dt className="font-display text-xl lg:text-2xl font-bold text-primary">{s.k}</dt>
+                  <dd className="mt-1 text-[11px] uppercase tracking-wider text-muted-foreground">
                     {s.v}
                   </dd>
                 </div>
@@ -70,18 +70,18 @@ function Home() {
             </dl>
           </div>
 
-          <div className="relative reveal">
+          <div className="relative reveal hidden lg:block">
             <div className="absolute -inset-6 lg:-inset-8 bg-primary/5 rounded-2xl -z-10" />
             <div className="relative overflow-hidden rounded-xl shadow-[var(--shadow-elevated)]">
               <img
                 src={heroImg}
-                alt="Pharmaceutical warehouse and modern construction site"
+                alt="Pharmaceutical vials and construction materials"
                 width={1600}
                 height={1200}
-                className="w-full h-[420px] sm:h-[520px] lg:h-[600px] object-cover"
+                className="w-full h-[60vh] max-h-[600px] object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -left-6 bg-surface border border-border shadow-[var(--shadow-card)] rounded-lg p-5 max-w-[260px] hidden sm:block">
+            <div className="absolute -bottom-6 -left-6 bg-surface border border-border shadow-[var(--shadow-card)] rounded-lg p-4 max-w-[260px]">
               <div className="flex items-center gap-2 text-accent">
                 <BadgeCheck className="h-5 w-5" />
                 <span className="text-xs font-semibold uppercase tracking-wider">
