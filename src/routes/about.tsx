@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import aboutImg from "@/assets/about.jpg";
+import { siteImages } from "@/lib/site-images";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { SectionGrid } from "@/components/site/SectionGrid";
 import { useTranslation } from "@/i18n";
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/about")({
         content:
           "Discover the mission and operating principles behind Basilea Trading's pharmaceutical and construction divisions.",
       },
-      { property: "og:image", content: aboutImg },
+      { property: "og:image", content: siteImages.about.src },
     ],
   }),
   component: AboutPage,

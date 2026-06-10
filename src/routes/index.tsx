@@ -8,16 +8,23 @@ import {
   ShieldCheck,
   Truck,
 } from "lucide-react";
-import heroImg from "@/assets/hero.jpg";
-import pharmaImg from "@/assets/pharma.jpg";
-import constructionImg from "@/assets/construction.jpg";
-import excellenceImg from "@/assets/excellence.jpg";
+import { OptimizedImage } from "@/components/site/OptimizedImage";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { SectionGrid } from "@/components/site/SectionGrid";
 import { useTranslation } from "@/i18n";
+import { siteImages } from "@/lib/site-images";
 
 export const Route = createFileRoute("/")({
   head: () => ({
+    links: [
+      {
+        rel: "preload",
+        as: "image",
+        href: siteImages.hero.webp,
+        type: "image/webp",
+        fetchPriority: "high",
+      },
+    ],
     meta: [
       { title: "Basilea Trading — Pharmaceutical & Construction Supply" },
       {
@@ -31,7 +38,7 @@ export const Route = createFileRoute("/")({
         content:
           "Certified pharmaceutical distribution and precision construction materials, delivered with operational discipline and verified quality.",
       },
-      { property: "og:image", content: heroImg },
+      { property: "og:image", content: siteImages.hero.src },
     ],
   }),
   component: Home,
@@ -40,8 +47,8 @@ export const Route = createFileRoute("/")({
 const whyIcons = [ShieldCheck, Truck, BadgeCheck, Headset] as const;
 
 const divisionCards = [
-  { image: pharmaImg, icon: Pill },
-  { image: constructionImg, icon: HardHat },
+  { image: siteImages.pharma, icon: Pill },
+  { image: siteImages.construction, icon: HardHat },
 ] as const;
 
 function Home() {
@@ -97,11 +104,12 @@ function Home() {
           <div className="relative reveal hidden lg:block">
             <div className="absolute -inset-6 rounded-2xl bg-primary/5 -z-10 lg:-inset-8" />
             <div className="relative overflow-hidden rounded-xl shadow-[var(--shadow-elevated)]">
-              <img
-                src={heroImg}
+              <OptimizedImage
+                {...siteImages.hero}
                 alt={t.home.hero.imageAlt}
-                width={1600}
-                height={1200}
+                loading="eager"
+                fetchPriority="high"
+                sizes="(min-width: 1024px) 45vw, 100vw"
                 className="h-[58vh] max-h-[580px] w-full object-cover"
               />
             </div>
@@ -147,12 +155,10 @@ function Home() {
                   className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all hover:border-primary/20 hover:shadow-[var(--shadow-elevated)]"
                 >
                   <div className="relative overflow-hidden">
-                    <img
-                      src={image}
+                    <OptimizedImage
+                      {...image}
                       alt={division.title}
-                      width={1280}
-                      height={640}
-                      loading="lazy"
+                      sizes="(min-width: 1024px) 40vw, 100vw"
                       className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/75 via-primary/15 to-transparent" />
@@ -218,12 +224,10 @@ function Home() {
           <div className="overflow-hidden rounded-2xl border border-primary-foreground/10 shadow-[var(--shadow-elevated)]">
             <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
               <div className="relative min-h-[280px] lg:min-h-full">
-                <img
-                  src={excellenceImg}
+                <OptimizedImage
+                  {...siteImages.excellence}
                   alt={t.home.commitment.imageAlt}
-                  width={1600}
-                  height={1000}
-                  loading="lazy"
+                  sizes="(min-width: 1024px) 45vw, 100vw"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-primary/15 lg:bg-gradient-to-l lg:from-transparent lg:via-primary/25 lg:to-primary/70" />

@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Building2, Clock, Mail, Phone } from "lucide-react";
-import excellenceImg from "@/assets/excellence.jpg";
+import { OptimizedImage } from "@/components/site/OptimizedImage";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { SectionGrid } from "@/components/site/SectionGrid";
+import { siteImages } from "@/lib/site-images";
 import { CONTACT_EMAIL, useTranslation } from "@/i18n";
 
 export const Route = createFileRoute("/contact")({
@@ -90,11 +91,10 @@ function ContactPage() {
             <div className="relative reveal hidden lg:block">
               <div className="absolute -inset-5 bg-primary/5 rounded-2xl -z-10" />
               <div className="overflow-hidden rounded-xl shadow-[var(--shadow-elevated)]">
-                <img
-                  src={excellenceImg}
+                <OptimizedImage
+                  {...siteImages.excellence}
                   alt=""
-                  width={1280}
-                  height={800}
+                  sizes="(min-width: 1024px) 40vw, 100vw"
                   className="h-[340px] w-full object-cover"
                 />
               </div>

@@ -6,12 +6,11 @@ import {
   Handshake,
   Pill,
 } from "lucide-react";
-import pharmaImg from "@/assets/pharma.jpg";
-import constructionImg from "@/assets/construction.jpg";
-import excellenceImg from "@/assets/excellence.jpg";
+import { OptimizedImage } from "@/components/site/OptimizedImage";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { SectionGrid } from "@/components/site/SectionGrid";
 import { useTranslation } from "@/i18n";
+import { siteImages, type SiteImage } from "@/lib/site-images";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -28,15 +27,15 @@ export const Route = createFileRoute("/projects")({
         content:
           "Pharmaceutical distribution, construction materials supply, and strategic partnerships at Basilea Trading.",
       },
-      { property: "og:image", content: constructionImg },
+      { property: "og:image", content: siteImages.construction.src },
     ],
   }),
   component: ProjectsPage,
 });
 
 const divisionMeta = [
-  { id: "pharma", image: pharmaImg, icon: Pill },
-  { id: "construction", image: constructionImg, icon: HardHat },
+  { id: "pharma", icon: Pill, ...siteImages.pharma },
+  { id: "construction", icon: HardHat, ...siteImages.construction },
 ] as const;
 
 function ProjectsPage() {
@@ -72,18 +71,20 @@ function ProjectsPage() {
             </div>
 
             <div className="relative reveal hidden lg:grid grid-cols-2 gap-4">
-              {[pharmaImg, constructionImg].map((src, i) => (
+              {divisionMeta.map((item, i) => (
                 <div
-                  key={src}
+                  key={item.id}
                   className={`overflow-hidden rounded-xl shadow-[var(--shadow-card)] ${
                     i === 1 ? "mt-10" : ""
                   }`}
                 >
-                  <img
-                    src={src}
+                  <OptimizedImage
+                    src={item.src}
+                    webp={item.webp}
                     alt=""
-                    width={640}
-                    height={480}
+                    width={item.width}
+                    height={item.height}
+                    sizes="220px"
                     className="h-44 w-full object-cover"
                   />
                 </div>
@@ -113,12 +114,10 @@ function ProjectsPage() {
                   className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all hover:border-primary/20 hover:shadow-[var(--shadow-elevated)]"
                 >
                   <div className="relative overflow-hidden">
-                    <img
-                      src={divisionMeta[i].image}
+                    <OptimizedImage
+                      {...divisionMeta[i]}
                       alt={division.title}
-                      width={1280}
-                      height={640}
-                      loading="lazy"
+                      sizes="(min-width: 1024px) 40vw, 100vw"
                       className="h-52 w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/10 to-transparent" />
@@ -160,7 +159,7 @@ function ProjectsPage() {
           eyebrow={division.eyebrow}
           title={division.title}
           intro={division.intro}
-          image={divisionMeta[i].image}
+          image={divisionMeta[i]}
           icon={divisionMeta[i].icon}
           bullets={division.bullets}
           ctaLabel={t.nav.requestQuote}
@@ -188,12 +187,10 @@ function ProjectsPage() {
               </Link>
             </div>
             <div className="relative min-h-[280px] lg:min-h-full">
-              <img
-                src={excellenceImg}
+              <OptimizedImage
+                {...siteImages.excellence}
                 alt={t.projects.partnerships.imageAlt}
-                width={1600}
-                height={1000}
-                loading="lazy"
+                sizes="(min-width: 1024px) 40vw, 100vw"
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-primary/20 lg:bg-gradient-to-r lg:from-primary lg:via-primary/40 lg:to-transparent" />
@@ -223,7 +220,7 @@ function DivisionSection({
   eyebrow: string;
   title: string;
   intro: string;
-  image: string;
+  image: SiteImage;
   icon: typeof Pill;
   bullets: string[];
   ctaLabel: string;
@@ -248,12 +245,10 @@ function DivisionSection({
           <div className="relative">
             <div className="absolute -inset-4 rounded-2xl bg-primary/5 -z-10" />
             <div className="overflow-hidden rounded-xl shadow-[var(--shadow-elevated)]">
-              <img
-                src={image}
+              <OptimizedImage
+                {...image}
                 alt={title}
-                width={1280}
-                height={960}
-                loading="lazy"
+                sizes="(min-width: 1024px) 45vw, 100vw"
                 className="h-[300px] w-full object-cover sm:h-[380px] lg:h-[460px]"
               />
             </div>

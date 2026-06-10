@@ -1,16 +1,22 @@
-import logoImg from "@/assets/LogoBasilea.png";
+import { OptimizedImage } from "./OptimizedImage";
+import { siteImages } from "@/lib/site-images";
 
 type LogoProps = {
   className?: string;
 };
 
 export function Logo({ className = "h-11 w-auto" }: LogoProps) {
+  const { src, webp, width, height } = siteImages.logo;
+
   return (
-    <img
-      src={logoImg}
+    <OptimizedImage
+      src={src}
+      webp={webp}
       alt="Basilea Trading"
-      width={220}
-      height={88}
+      width={width}
+      height={height}
+      loading="eager"
+      fetchPriority="high"
       className={className}
     />
   );
