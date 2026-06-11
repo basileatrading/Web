@@ -63,4 +63,4 @@ export function useTranslation() {
   return { t, locale, setLocale };
 }
 
-export const CONTACT_EMAIL = "bekalugetahun683@gmail.com";
+export const CONTACT_EMAIL = "Contact@basileatrading.com";

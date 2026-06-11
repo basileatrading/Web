@@ -62,7 +62,7 @@ function Home() {
     <SiteLayout>
       <section className="relative overflow-hidden border-b border-border">
         <SectionGrid align="right" />
-        <div className="container-page relative grid min-h-[calc(100svh-5rem)] items-center gap-10 py-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-12">
+        <div className="container-page relative grid min-h-[calc(100svh-6.25rem)] items-center gap-10 py-10 lg:min-h-[calc(100svh-7rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:py-12">
           <div className="reveal max-w-xl lg:max-w-none">
             <span className="eyebrow">{t.home.hero.eyebrow}</span>
             <h1 className="mt-5 font-display text-3xl font-extrabold leading-[1.05] text-primary sm:text-4xl lg:text-[3.25rem]">
